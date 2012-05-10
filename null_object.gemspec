@@ -17,4 +17,5 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency "rspec", "~>2.10.0"
   gem.add_development_dependency "bourne", "~>1.1.2"
+  gem.add_development_dependency "rake"
 end
