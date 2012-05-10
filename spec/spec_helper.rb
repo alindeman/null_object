@@ -1,4 +1,5 @@
 require 'mocha'
+require 'pry'
 require File.join(File.dirname(__FILE__), '..', 'lib', 'null_object')
 
 RSpec.configure do |config|

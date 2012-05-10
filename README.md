@@ -3,6 +3,35 @@
 Dead simple library to create null objects (objects that respond to all
 messages)
 
+## Why?
+
+Imagine that sometimes your code uses a [statsd](https://github.com/etsy/statsd)
+client to instrument itself. But only sometimes.
+
+If you used `nil` to represent the case where the statsd client isn't configured,
+you end up writing code like this ... which sucks:
+
+```ruby
+statsd.increment("foo") if statsd
+```
+
+And how to you deal with timers? I have no idea
+
+```ruby
+# statsd might be nil, ugh!
+statsd.timer("foo") { ... }
+```
+
+But if your `statsd` were either a real `Statsd` client **or a `NullObject`**,
+the problems go away:
+
+```
+obj = NullObject.new { |&block| block.call if block }
+
+@statsd.increment("foo")     # no need for a conditional; it's a no-op
+@statsd.timer("foo") { ... } # yields to the block, but otherwise a no-op
+```
+
 ## Usage
 
 Respond to ALL the things:
@@ -12,6 +41,13 @@ obj = NullObject.new
 obj.foo     # => obj
 obj.bar     # => obj
 obj.foo.bar # => obj
+```
+
+Yield ALL the things:
+
+```ruby
+obj = NullObject.new { |&block| block.call if block }
+obj.foo { puts "bar" } # outputs "bar"
 ```
 
 Respond to SOME of the things:

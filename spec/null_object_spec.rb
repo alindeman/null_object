@@ -8,6 +8,16 @@ describe NullObject do
     obj.foo.bar.should be obj
   end
 
+  it "yields ALL the things" do
+    obj = NullObject.new { |&block| block.call if block }
+    obj.foo.should be_nil
+
+    called = false
+    obj.foo { called = true }
+
+    called.should be_true
+  end
+
   it "responds to SOME of the things" do
     obj = NullObject.new(:foo, :bar)
     obj.foo.should be obj

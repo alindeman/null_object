@@ -11,23 +11,13 @@ class NullObject
     @return_block = return_block
   end
 
-  def method_missing(method, *args)
-    matched = false
-    return_value = if @methods.empty?
-                     matched = true and __global_return_value__
-                   elsif @methods.is_a?(Hash) && @methods.key?(method.to_sym)
-                     matched = true and @methods[method.to_sym]
-                   elsif @methods.is_a?(Enumerable) && @methods.include?(method.to_sym)
-                     matched = true and __global_return_value__
-                   end
-
-    if matched
-      # Next time, there'll be a real method and we'll avoid the method_missing
-      # chain
-      singleton_class = class << self; self; end;
-      singleton_class.__send__(:define_method, method) { return_value }
-
-      return_value
+  def method_missing(method, *args, &block)
+    if @methods.empty?
+      __global_return_value__(*args, &block)
+    elsif @methods.is_a?(Hash) && @methods.key?(method.to_sym)
+      @methods[method.to_sym]
+    elsif @methods.is_a?(Enumerable) && @methods.include?(method.to_sym)
+      __global_return_value__(*args, &block)
     else
       super
     end
@@ -35,7 +25,7 @@ class NullObject
 
   private
 
-  def __global_return_value__
-    @return_block ? @return_block.call : self
+  def __global_return_value__(*args, &block)
+    @return_block ? @return_block.call(*args, &block) : self
   end
 end
