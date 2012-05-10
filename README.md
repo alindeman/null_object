@@ -9,16 +9,17 @@ Respond to ALL the things:
 
 ```ruby
 obj = NullObject.new
-obj.foo # => nil
-obj.bar # => nil
+obj.foo     # => obj
+obj.bar     # => obj
+obj.foo.bar # => obj
 ```
 
 Respond to SOME of the things:
 
 ```ruby
 obj = NullObject.new(:foo, :bar)
-obj.foo # => nil
-obj.bar # => nil
+obj.foo # => obj
+obj.bar # => obj
 obj.baz # raises NoMethodError
 ```
 
@@ -38,12 +39,11 @@ obj.foo # => "foo"
 obj.bar # => "foo"
 ```
 
-Respond to ALL of the things with `self`:
+Respond to ALL of the things with nil:
 
 ```ruby
-obj = NullObject.new { obj }
-obj.foo         # => obj
-obj.foo.bar.baz # => obj
+obj = NullObject.new { nil }
+obj.foo # => nil
 ```
 
 ## Contributing

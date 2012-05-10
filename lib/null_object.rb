@@ -36,6 +36,6 @@ class NullObject
   private
 
   def __global_return_value__
-    @return_block && @return_block.call
+    @return_block ? @return_block.call : self
   end
 end
