@@ -3,6 +3,11 @@
 Dead simple library to create null objects (objects that respond to all
 messages)
 
+## Requirements
+
+* MRI 1.9, JRuby in 1.9 mode (`JRUBY_OPTS=--1.9`), Rubinius in 1.9 mode
+  (`RBXOPT=-X19`)
+
 ## Why?
 
 Imagine that sometimes your code uses a [statsd](https://github.com/etsy/statsd)
