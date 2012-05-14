@@ -1,5 +1,7 @@
 # NullObject
 
+[![Build Status](https://secure.travis-ci.org/alindeman/null_object.png)](http://travis-ci.org/alindeman/null_object)
+
 Dead simple library to create null objects (objects that respond to all
 messages)
 
