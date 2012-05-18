@@ -26,7 +26,7 @@ And how to you deal with timers? I have no idea
 
 ```ruby
 # statsd might be nil, ugh!
-statsd.timer("foo") { ... }
+statsd.time("foo") { ... }
 ```
 
 But if your `statsd` were either a real `Statsd` client **or a `NullObject`**,
@@ -35,8 +35,8 @@ the problems go away:
 ```
 statsd = NullObject.new { |&block| block.call if block }
 
-statsd.increment("foo")     # no need for a conditional; it's a no-op
-statsd.timer("foo") { ... } # yields to the block, but otherwise a no-op
+statsd.increment("foo")    # no need for a conditional; it's a no-op
+statsd.time("foo") { ... } # yields to the block, but otherwise a no-op
 ```
 
 ## Usage
